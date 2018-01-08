@@ -1,4 +1,32 @@
- module.exports = 
+document.addEventListener('DOMContentLoaded', () => {
+    Array.prototype.groupBy = groupBy;
+    let runButton = document.querySelector('#run-button');
+    let outputContainer = document.querySelector('#output');
+
+    runButton.addEventListener('click', () => {
+        let inputArrayValue = document.querySelector('#input-array').value;
+        let functionValue = document.querySelector('#input-function').value;
+        let resultString = ``;
+
+
+        if (inputArrayValue) {
+            inputArrayValue = inputArrayValue.split(',').map(element => Number(element));
+            let result = inputArrayValue.groupBy(eval(functionValue));
+            
+
+            Object.keys(result).forEach(key => {
+                resultString += `<div class="output-object-inner-key">
+                    <span class="output-key">${key}</span>: [<span class="output-value">${result[key].reduce((markup, element) => markup === `` ? markup + `${element}` : markup + `, ${element}`, ``)}</span>]</div>`
+            })
+        }
+
+        outputContainer.innerHTML = `<div>{</div>${resultString}<div>}</div>`;
+        
+    })
+
+
+})
+
 function groupBy(fn) {
     let initialArray = this;
     let evaluatedArray = [];

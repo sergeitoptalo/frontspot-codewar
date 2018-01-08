@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+}
+
+body, input, button {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.input-section {
+    border: 1px solid #ccc;
+    float: left;
+    padding: 20px;
+}
+
+.input-section label,
+.input-section label > input {
+    display: block;
+}
+
+.input-section label > input {
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.input-section label {
+    margin-bottom: 20px;
+}
+
+#output {
+    border: 1px solid #ccc;
+    float: right;
+    font-size: 17px;
+    min-height: 183px;
+    min-width: 315px;
+    padding: 30px;
+}
+
+.input-section label > input,
+.run-button {
+    font-size: 16px;
+    width: 100%;
+}
+
+.run-button {
+    background: gray;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.run-button:hover {
+    background: #333333
+}
+
+.output-key {
+    color: #6f42c1;
+}
+
+.output-value {
+    color: #005cc5;
+    padding: 5px;
+}
+
+.output-object-inner-key {
+    margin: 5px 0 5px 30px;
+}
