@@ -8,23 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let functionValue = document.querySelector('#input-function').value;
         let resultString = ``;
 
-
         if (inputArrayValue) {
             inputArrayValue = inputArrayValue.split(',').map(element => Number(element));
             let result = inputArrayValue.groupBy(eval(functionValue));
-            
 
             Object.keys(result).forEach(key => {
                 resultString += `<div class="output-object-inner-key">
                     <span class="output-key">${key}</span>: [<span class="output-value">${result[key].reduce((markup, element) => markup === `` ? markup + `${element}` : markup + `, ${element}`, ``)}</span>]</div>`
             })
         }
-
         outputContainer.innerHTML = `<div>{</div>${resultString}<div>}</div>`;
-        
     })
-
-
 })
 
 function groupBy(fn) {
