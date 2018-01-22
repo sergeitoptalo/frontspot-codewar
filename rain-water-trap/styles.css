@@ -1,0 +1,8 @@
+.container td {
+    height: 20px;
+    width: 20px;
+}
+
+.container td.wall {
+    background: #000;
+}
