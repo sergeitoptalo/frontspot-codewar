@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.prototype.groupBy = groupBy;
     let runButton = document.querySelector('#run-button');
     let outputContainer = document.querySelector('#output');
+    document.querySelector('#input-array').value = "1,2,3,2,4,1,5,1,6";
+    document.querySelector('#input-function').value = "val => val % 3";
 
     runButton.addEventListener('click', () => {
         let inputArrayValue = document.querySelector('#input-array').value;
