@@ -28,23 +28,23 @@ function groupBy(fn) {
         return array;
     }
 
-    let final = {};
+    let result = {};
 
     let previousElement = null;
     sortedEvaluatedArray.forEach((element, index, array) => {
 
         if (previousElement !== element) {
-            final[element] = [];
+            result[element] = [];
             if (fn) {
                 evaluatedArray.filter((filterElement, index) => {
                     if (filterElement == element) {
-                        final[element].push(initialArray[index]);
+                        result[element].push(initialArray[index]);
                     }
                 })
             } else {
                 sortedEvaluatedArray.filter((filterElement, index) => {
                     if (filterElement == element) {
-                        final[element].push(filterElement);
+                        result[element].push(filterElement);
                     }
                 })
             }
@@ -52,5 +52,5 @@ function groupBy(fn) {
         previousElement = element;
     })
 
-    return final;
+    return result;
 } 
