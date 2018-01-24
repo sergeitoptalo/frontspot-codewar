@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+
+.container table {
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.container table,
+.controls-container table {
+    table-layout: fixed;
+}
+
+.container td,
+.controls-container td {
+    height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+.controls-container td {
+    border: 1px solid #ccc;
+}
+
+.container td.wall {
+    background: #000;
+}
+
+.container td.water {
+    background: rgb(17, 141, 243);
+}
+
+.controls-container {
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.controls-container:hover {
+    opacity: 1;
+}
+
+.controls-container td button {
+    display: block;
+}
