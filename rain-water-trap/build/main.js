@@ -158,7 +158,7 @@ var App = function () {
                     row.forEach(function (element) {
                         _this.state[index][element] = 2;
                     });
-                    _this.state.push(_this.emptyRow);
+                    //this.state.push(this.emptyRow);
                 }
             });
 
@@ -166,19 +166,12 @@ var App = function () {
         }
     }, {
         key: 'addStone',
-        value: function addStone(columnIndex) {
+        value: function addStone(columnIndex, wallLevel) {
             var state = this.state;
-            var currentColumn = [];
-            state.forEach(function (row) {
-                currentColumn.push(row[columnIndex]);
-            });
-            var wallTopBorderIndex = currentColumn.indexOf(1);
-            if (wallTopBorderIndex !== -1) {
-                if (wallTopBorderIndex === this.state.length - 1) {
-                    this.state.unshift([].concat(this.emptyRow));
-                }
+            if (this.state.length <= wallLevel) {
+                this.state.push([].concat(this.emptyRow));
             }
-            this.state[wallTopBorderIndex + 1][columnIndex] = 1;
+            this.state[wallLevel][columnIndex] = 1;
             this.render();
         }
     }, {
@@ -200,7 +193,7 @@ var App = function () {
                 return '<tr>\n                    ' + row.map(function (element) {
                     return '<td ' + (element !== 0 ? 'class="' + (element === 1 ? 'wall' : 'water') + '"' : '') + '></td>';
                 }).join('') + '\n                </tr>';
-            }).join('') + '\n          \n        </table>\n      ';
+            }).reverse().join('') + '\n          \n        </table>\n      ';
         }
     }]);
 
@@ -247,7 +240,8 @@ var Controls = function () {
                 switch (action) {
                     case 'increase':
                         {
-                            this.wall.addStone(target.parentNode.dataset.column);
+                            target.parentNode.dataset.wallLevel++;
+                            this.wall.addStone(target.parentNode.dataset.column, target.parentNode.dataset.wallLevel);
                             break;
                         };
 
@@ -256,6 +250,12 @@ var Controls = function () {
                             this.wall.removeStone(target.dataset.column);
                             break;
                         };
+
+                    case 'run-rain':
+                        {
+                            this.wall.rain();
+                            break;
+                        }
                     default:
                         break;
                 }
@@ -266,9 +266,9 @@ var Controls = function () {
         value: function render() {
             var controlsMarkup = '';
             for (var i = 0; i <= this.columnsNumber; i++) {
-                controlsMarkup += '\n        <td data-column="' + i + '">\n            <button data-action="increase">+</button>\n            <button data-action="reduce">-</button>\n        </td>';
+                controlsMarkup += '\n        <td data-column="' + i + '" data-wall-level="-1">\n            <button data-action="increase">+</button>\n            <button data-action="reduce">-</button>\n        </td>';
             }
-            this.controlsContainer.innerHTML = '\n        <table>\n            <tr>\n                ' + controlsMarkup + '\n            </tr>\n        </table>\n    ';
+            this.controlsContainer.innerHTML = '\n        <table>\n            <tr>\n                ' + controlsMarkup + '\n            </tr>\n        </table>\n        <button data-action="run-rain">Rain</button>\n    ';
         }
     }]);
 

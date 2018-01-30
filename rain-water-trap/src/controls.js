@@ -3,7 +3,7 @@ export default class Controls {
         this.wall = wall;
         this.columnsNumber = columnsNumber;
         this.controlsContainer = document.querySelector('#controls-container');
-        this.controlsContainer.addEventListener('click', (event) => this.detectClickTarget(event))
+        this.controlsContainer.addEventListener('click', (event) => this.detectClickTarget(event));
     }
 
     detectClickTarget(event) {
@@ -12,7 +12,8 @@ export default class Controls {
             let action = target.dataset.action;
             switch(action) {
                 case 'increase': {
-                    this.wall.addStone(target.parentNode.dataset.column);
+                    target.parentNode.dataset.wallLevel++;
+                    this.wall.addStone(target.parentNode.dataset.column, target.parentNode.dataset.wallLevel);
                     break;
                 };
 
@@ -20,6 +21,11 @@ export default class Controls {
                     this.wall.removeStone(target.dataset.column);
                     break;
                 };
+
+                case 'run-rain': {
+                    this.wall.rain();
+                    break;
+                }
                 default: break;
             }
             
@@ -31,7 +37,7 @@ export default class Controls {
         let controlsMarkup = ``;
         for (let i = 0; i <= this.columnsNumber; i++) {
             controlsMarkup += `
-        <td data-column="${i}">
+        <td data-column="${i}" data-wall-level="-1">
             <button data-action="increase">+</button>
             <button data-action="reduce">-</button>
         </td>`
@@ -42,6 +48,7 @@ export default class Controls {
                 ${controlsMarkup}
             </tr>
         </table>
+        <button data-action="run-rain">Rain</button>
     `
     }
 }

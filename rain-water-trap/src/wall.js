@@ -40,15 +40,19 @@ export default class App {
                 row.forEach(element => {
                     this.state[index][element] = 2;
                 })
-                this.state.push(this.emptyRow);
             }
         })
 
         this.render();
     }
 
-    addStone(columnIndex) {
-
+    addStone(columnIndex, wallLevel) {
+        let state = this.state;
+        if (this.state.length <= wallLevel) {
+            this.state.push([].concat(this.emptyRow))
+        }
+        this.state[wallLevel][columnIndex] = 1;
+        this.render();
     }
 
     removeStone(columnIndex) {
@@ -74,7 +78,7 @@ export default class App {
                     }).join('')
                     }
                 </tr>`
-            }).join('')}
+            }).reverse().join('')}
           
         </table>
       `
