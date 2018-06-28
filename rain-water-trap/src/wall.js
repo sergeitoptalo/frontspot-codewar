@@ -1,70 +1,96 @@
 import Controls from './controls.js';
 
-export default class App {
+export default class Wall {
     constructor(columnsNumber, container) {
         this.state = [];
-        this.emptyRow = [];
+        // this.emptyRow = [];
+        this.row = [];
+        this.columnsNumber = columnsNumber;
         this.container = container;
         this.controls = new Controls(this, columnsNumber).render();
-        this.renderInitialState(columnsNumber);
+        this.addNewRow();
+        this.render();
     }
 
     rain() {
-        let waterConfig = [];
-        let rowFirstStoneIndex = null;
-        let rowLastStoneIndex = null;
-        this.state.forEach((row, index) => {
-            waterConfig.push([]);
-            row.forEach((element, elIndex) => {
-                if (element === 1 && rowFirstStoneIndex === null) {
-                    rowFirstStoneIndex = elIndex;
-                }
-                if (element === 1 && rowFirstStoneIndex !== null && elIndex !== rowFirstStoneIndex) {
-                    rowLastStoneIndex = elIndex;
-                    for (let i = rowLastStoneIndex - 1; i > rowFirstStoneIndex; i--) {
-                        waterConfig[index].push(i);
+        this.state.forEach((row, rowIndex, rowArray) => {
+            let firstStoneIndex = null;
+            let lastStoneIndex = null;
+
+            row.forEach((element, index, array) => {
+                if (index !== 0 || index !== array.length - 1) {
+                    if (array[index - 1] === 1 && array[index + 1] === 1) {
+                        array[index] = -1;
                     }
-                    rowFirstStoneIndex = rowLastStoneIndex;
-                    rowLastStoneIndex = null;
                 }
             })
-            if (!waterConfig[index]) {
-                waterConfig[index] = null;
-            }
-            rowFirstStoneIndex = null;
-            rowLastStoneIndex = null;
         })
-
-        waterConfig.forEach((row, index) => {
-            if (row) {
-                row.forEach(element => {
-                    this.state[index][element] = 2;
+        /*         let waterConfig = [];
+                let rowFirstStoneIndex = null;
+                let rowLastStoneIndex = null;
+                this.state.forEach((row, index) => {
+                    waterConfig.push([]);
+                    row.forEach((element, elIndex) => {
+                        if (element === 1 && rowFirstStoneIndex === null) {
+                            rowFirstStoneIndex = elIndex;
+                        }
+                        if (element === 1 && rowFirstStoneIndex !== null && elIndex !== rowFirstStoneIndex) {
+                            rowLastStoneIndex = elIndex;
+                            for (let i = rowLastStoneIndex - 1; i > rowFirstStoneIndex; i--) {
+                                waterConfig[index].push(i);
+                            }
+                            rowFirstStoneIndex = rowLastStoneIndex;
+                            rowLastStoneIndex = null;
+                        }
+                    })
+                    if (!waterConfig[index]) {
+                        waterConfig[index] = null;
+                    }
+                    rowFirstStoneIndex = null;
+                    rowLastStoneIndex = null;
                 })
-            }
-        })
+        
+                waterConfig.forEach((row, index) => {
+                    if (row) {
+                        row.forEach(element => {
+                            this.state[index][element] = 2;
+                        })
+                    }
+                }) */
 
         this.render();
     }
 
-    addStone(columnIndex, wallLevel) {
-        let state = this.state;
-        if (this.state.length <= wallLevel) {
-            this.state.push([].concat(this.emptyRow))
+    addNewRow(stoneIndex) {
+        this.row.splice(0, this.row.length);
+        for (let i = 0; i < this.columnsNumber; i++) {
+            this.row.push(0);
         }
-        this.state[wallLevel][columnIndex] = 1;
+
+        if (stoneIndex) {
+            this.row[stoneIndex] = 1;
+        }
+
+        this.state.push([...this.row]);
+    }
+
+    addStone(columnIndex) {
+        let wallBorder = 0;
+        this.state.forEach((row, index, array) => {
+            if (row[columnIndex] && index === array.length - 1) {
+                this.addNewRow(columnIndex);
+            }
+            if (!row[columnIndex] && !wallBorder) {
+                row[columnIndex] = 1;
+                wallBorder = 1;
+            }
+        });
+
         this.render();
     }
 
     removeStone(columnIndex) {
 
-    }
-
-    renderInitialState(columnsNumber) {
-        for (let i = 0; i <= columnsNumber; i++) {
-            this.emptyRow.push(0);
-        }
-        this.state.push([].concat(this.emptyRow));
-        this.render();
     }
 
     render() {
@@ -79,7 +105,6 @@ export default class App {
                     }
                 </tr>`
             }).reverse().join('')}
-          
         </table>
       `
     }

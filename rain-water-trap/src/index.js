@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     runButton.addEventListener('click', () => {
         let initialColumnsNumber = document.querySelector('#columns-number').value;
-        new Wall(initialColumnsNumber, container)
+        new Wall(initialColumnsNumber, container);
     });
 })
 

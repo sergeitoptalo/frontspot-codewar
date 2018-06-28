@@ -12,8 +12,9 @@ export default class Controls {
             let action = target.dataset.action;
             switch(action) {
                 case 'increase': {
-                    target.parentNode.dataset.wallLevel++;
-                    this.wall.addStone(target.parentNode.dataset.column, target.parentNode.dataset.wallLevel);
+                    //target.parentNode.dataset.wallLevel++;
+                    this.wall.addStone(target.parentNode.dataset.column);
+
                     break;
                 };
 
@@ -35,13 +36,14 @@ export default class Controls {
 
     render() {
         let controlsMarkup = ``;
-        for (let i = 0; i <= this.columnsNumber; i++) {
+        for (let i = 0; i < this.columnsNumber; i++) {
             controlsMarkup += `
-        <td data-column="${i}" data-wall-level="-1">
+        <td data-column="${i}">
             <button data-action="increase">+</button>
             <button data-action="reduce">-</button>
         </td>`
         }
+        
         this.controlsContainer.innerHTML = `
         <table>
             <tr>
