@@ -1,0 +1,46 @@
+.controls-container {
+    background: #3f7996;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+	position: fixed;
+	right: 0;
+}
+
+.cell-size-input-container {
+    float: left;
+}
+
+#cell-size {
+    border: 1px solid #fff;
+    border-radius: 3px;
+    padding: 5px;
+    width: 70px;
+}
+
+#start-button, 
+#stop-button,
+#config-button {
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#start-button:disabled {
+    border-color: #ccc;
+    color: #ccc;
+    cursor: auto;
+}
+
+.glider-label {
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.controls {
+    float: right;
+}
+

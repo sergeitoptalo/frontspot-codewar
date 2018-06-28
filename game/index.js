@@ -1,21 +1,19 @@
-const config = {
-    /*   field: [
-          [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-          [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      ] */
-};
+const gliderConfig = [
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
 
 const calculateWindowSize = () => {
     let screenWidth = window.innerWidth;
-    let screenHeight = window.innerHeight;
+    let screenHeight = window.innerHeight - 50;
 
     return {
         screenHeight,
@@ -25,10 +23,10 @@ const calculateWindowSize = () => {
 
 
 class Game {
-    constructor(screenHeight, screenWidth) {
-        this.state = [];
-        this.cellHeight = 10;
-        this.cellWidth = 10;
+    constructor(screenHeight, screenWidth, cellSize, gameState = []) {
+        this.state = gameState;
+        this.cellHeight = cellSize;
+        this.cellWidth = cellSize;
         this.cellsInRow = 0;
         this.rows = 0;
         this.screenHeight = screenHeight;
@@ -79,21 +77,21 @@ class Game {
             this.state.forEach(row => {
                 row.forEach(cell => {
                     if (cell === 0) {
-                        ctx.fillStyle = 'rgba(255, 255, 200, 1)';
+                        ctx.fillStyle = 'rgba(227, 235, 239, 1)';
                         ctx.fillRect(x, y, this.cellWidth, this.cellHeight);
-                        ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
-                        ctx.strokeStyle = 'black';
-                        x = x + this.cellWidth;
+                        // ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
+                        //ctx.strokeStyle = 'white';
+                        x = x + this.cellWidth + 1;
                     } else {
-                        ctx.fillStyle = 'rgba(0, 200, 200, 1)';
+                        ctx.fillStyle = 'rgba(63, 121, 150, 1)';
                         ctx.fillRect(x, y, this.cellWidth, this.cellHeight);
-                        ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
-                        ctx.strokeStyle = 'white';
-                        x = x + this.cellWidth;
+                        // ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
+                        //ctx.strokeStyle = '#4d6819';
+                        x = x + this.cellWidth + 1;
                     }
                 })
                 x = 0;
-                y = y + this.cellHeight;
+                y = y + this.cellHeight + 1;
             })
         }
     }
@@ -143,22 +141,53 @@ class Game {
 
 const getInitialMarkup = (screenHeight, screenWidth) => {
     document.body.innerHTML = `
-    <canvas id="canvas" height="${screenHeight}" width="${screenWidth - 50}"></canvas>
-    <button id="start-button">Start</button>
-    <button id="stop-button">Stop</button>
+    <canvas id="canvas" height="${screenHeight}" width="${screenWidth}"></canvas>
+    <div class="controls-container">
+        <div class="cell-size-input-container">
+            <input type="number" id="cell-size" />
+            <button id="config-button">Ok</button>
+            <input type="checkbox" id="turn-glider">
+            <label for="turn-glider" class="glider-label">Glider</label>
+        </div>
+        <div class="controls">
+            <button id="start-button">Start</button>
+            <button id="stop-button">Stop</button>
+        </div>
+    </div>
    `;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     let { screenHeight, screenWidth } = calculateWindowSize();
     getInitialMarkup(screenHeight, screenWidth);
+    const congifButton = document.querySelector('#config-button');
 
-    let game = new Game(screenHeight, screenWidth);
-    game.drawInitialState();
+    let game = null;
+
+    congifButton.addEventListener('click', () => {
+        if (document.querySelector('#cell-size').value) {
+            let cellSize = Number(document.querySelector('#cell-size').value);
+            let enableGlider = document.querySelector('#turn-glider').checked;
+
+            if (enableGlider) {
+                game = new Game(screenHeight, screenWidth, cellSize, gliderConfig);
+                game.draw();
+            } else {
+                game = new Game(screenHeight, screenWidth, cellSize);
+                game.drawInitialState();
+            }
+        }
+    });
 
     const startButton = document.querySelector('#start-button');
     const stopButton = document.querySelector('#stop-button');
 
-    startButton.addEventListener('click', () => game.startGame());
-    stopButton.addEventListener('click', () => game.stopGame());
+    startButton.addEventListener('click', () => {
+        startButton.disabled = true;
+        game.startGame();
+    });
+    stopButton.addEventListener('click', () => {
+        startButton.disabled = false;
+        game.stopGame()
+    });
 });
