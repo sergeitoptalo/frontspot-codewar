@@ -74,20 +74,30 @@ var _wall = __webpack_require__(1);
 
 var _wall2 = _interopRequireDefault(_wall);
 
+var _controls = __webpack_require__(3);
+
+var _controls2 = _interopRequireDefault(_controls);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
-    //const elevationMap = [1, 0, 2, 3, 5, 6, 8, 7, 6, 0, 0, 0];
-
     var runButton = document.querySelector('#run-button');
 
-    //runButton.addEventListener();
-
     var container = document.querySelector('#container');
+    var controls = void 0;
+
+    var detectClickTarget = function detectClickTarget(event) {
+        controls.detectClickTarget(event);
+    };
 
     runButton.addEventListener('click', function () {
         var initialColumnsNumber = document.querySelector('#columns-number').value;
-        new _wall2.default(initialColumnsNumber, container);
+        var wall = new _wall2.default(initialColumnsNumber, container);
+        if (controls) {
+            controls.getControlsContainer().removeEventListener('click', detectClickTarget);
+        }
+        controls = new _controls2.default(wall, initialColumnsNumber);
+        controls.getControlsContainer().addEventListener('click', detectClickTarget);
     });
 });
 
@@ -104,26 +114,25 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _controls = __webpack_require__(2);
-
-var _controls2 = _interopRequireDefault(_controls);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*   
+Wall config: 
+       -1 - water;
+        0 - space;
+        1 - stone;
+*/
 
 var Wall = function () {
     function Wall(columnsNumber, container) {
         _classCallCheck(this, Wall);
 
         this.state = [];
-        // this.emptyRow = [];
         this.row = [];
         this.columnsNumber = columnsNumber;
         this.container = container;
-        this.controls = new _controls2.default(this, columnsNumber).render();
         this.addNewRow();
         this.render();
     }
@@ -131,50 +140,17 @@ var Wall = function () {
     _createClass(Wall, [{
         key: 'rain',
         value: function rain() {
+            this.state.wasRain = true;
             this.state.forEach(function (row, rowIndex, rowArray) {
-                var firstStoneIndex = null;
-                var lastStoneIndex = null;
+                var firstStoneIndex = row.indexOf(1);
+                var lastStoneIndex = row.lastIndexOf(1);
 
-                row.forEach(function (element, index, array) {
-                    if (index !== 0 || index !== array.length - 1) {
-                        if (array[index - 1] === 1 && array[index + 1] === 1) {
-                            array[index] = -1;
-                        }
+                for (var i = firstStoneIndex; i < lastStoneIndex; i++) {
+                    if (row[i] === 0) {
+                        row[i] = -1;
                     }
-                });
+                }
             });
-            /*         let waterConfig = [];
-                    let rowFirstStoneIndex = null;
-                    let rowLastStoneIndex = null;
-                    this.state.forEach((row, index) => {
-                        waterConfig.push([]);
-                        row.forEach((element, elIndex) => {
-                            if (element === 1 && rowFirstStoneIndex === null) {
-                                rowFirstStoneIndex = elIndex;
-                            }
-                            if (element === 1 && rowFirstStoneIndex !== null && elIndex !== rowFirstStoneIndex) {
-                                rowLastStoneIndex = elIndex;
-                                for (let i = rowLastStoneIndex - 1; i > rowFirstStoneIndex; i--) {
-                                    waterConfig[index].push(i);
-                                }
-                                rowFirstStoneIndex = rowLastStoneIndex;
-                                rowLastStoneIndex = null;
-                            }
-                        })
-                        if (!waterConfig[index]) {
-                            waterConfig[index] = null;
-                        }
-                        rowFirstStoneIndex = null;
-                        rowLastStoneIndex = null;
-                    })
-            
-                    waterConfig.forEach((row, index) => {
-                        if (row) {
-                            row.forEach(element => {
-                                this.state[index][element] = 2;
-                            })
-                        }
-                    }) */
 
             this.render();
         }
@@ -198,11 +174,12 @@ var Wall = function () {
             var _this = this;
 
             var wallBorder = 0;
+
             this.state.forEach(function (row, index, array) {
-                if (row[columnIndex] && index === array.length - 1) {
+                if (row[columnIndex] === 1 && index === array.length - 1) {
                     _this.addNewRow(columnIndex);
                 }
-                if (!row[columnIndex] && !wallBorder) {
+                if (row[columnIndex] <= 0 && !wallBorder) {
                     row[columnIndex] = 1;
                     wallBorder = 1;
                 }
@@ -212,7 +189,31 @@ var Wall = function () {
         }
     }, {
         key: 'removeStone',
-        value: function removeStone(columnIndex) {}
+        value: function removeStone(columnIndex) {
+            var column = this.state.map(function (row) {
+                return row[columnIndex];
+            });
+
+            var lastStoneIndex = column.lastIndexOf(1);
+
+            if (lastStoneIndex !== -1) {
+                this.state[lastStoneIndex][columnIndex] = 0;
+
+                if (this.state[lastStoneIndex].some(function (cell) {
+                    return cell === -1;
+                })) {
+                    this.state[lastStoneIndex].forEach(function (cell, cellIndex, cellsArray) {
+                        if (cell === -1) {
+                            cellsArray[cellIndex] = 0;
+                        }
+                    });
+
+                    this.rain();
+                } else {
+                    this.render();
+                };
+            }
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -230,7 +231,8 @@ var Wall = function () {
 exports.default = Wall;
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -246,19 +248,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Controls = function () {
     function Controls(wall, columnsNumber) {
-        var _this = this;
-
         _classCallCheck(this, Controls);
 
         this.wall = wall;
         this.columnsNumber = columnsNumber;
         this.controlsContainer = document.querySelector('#controls-container');
-        this.controlsContainer.addEventListener('click', function (event) {
-            return _this.detectClickTarget(event);
-        });
+
+        this.render();
     }
 
     _createClass(Controls, [{
+        key: 'getControlsContainer',
+        value: function getControlsContainer() {
+            return this.controlsContainer;
+        }
+    }, {
         key: 'detectClickTarget',
         value: function detectClickTarget(event) {
             var target = event.target;
@@ -267,18 +271,14 @@ var Controls = function () {
                 switch (action) {
                     case 'increase':
                         {
-                            //target.parentNode.dataset.wallLevel++;
                             this.wall.addStone(target.parentNode.dataset.column);
-
                             break;
                         };
-
                     case 'reduce':
                         {
-                            this.wall.removeStone(target.dataset.column);
+                            this.wall.removeStone(target.parentNode.dataset.column);
                             break;
                         };
-
                     case 'run-rain':
                         {
                             this.wall.rain();
@@ -294,10 +294,10 @@ var Controls = function () {
         value: function render() {
             var controlsMarkup = '';
             for (var i = 0; i < this.columnsNumber; i++) {
-                controlsMarkup += '\n        <td data-column="' + i + '">\n            <button data-action="increase">+</button>\n            <button data-action="reduce">-</button>\n        </td>';
+                controlsMarkup += '\n        <td data-column="' + i + '">\n            <button data-action="increase">&#9650;</button>\n            <button data-action="reduce">&#9660;</button>\n        </td>';
             }
 
-            this.controlsContainer.innerHTML = '\n        <table>\n            <tr>\n                ' + controlsMarkup + '\n            </tr>\n        </table>\n        <button data-action="run-rain">Rain</button>\n    ';
+            this.controlsContainer.innerHTML = '\n        <button data-action="run-rain" class="rain-button">Rain</button>\n        <table class="controls-table">\n            <tr>\n                ' + controlsMarkup + '\n            </tr>\n        </table>\n        \n    ';
         }
     }]);
 

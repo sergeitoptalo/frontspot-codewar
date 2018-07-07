@@ -1,62 +1,32 @@
-import Controls from './controls.js';
+/*   
+Wall config: 
+       -1 - water;
+        0 - space;
+        1 - stone;
+*/
 
 export default class Wall {
     constructor(columnsNumber, container) {
         this.state = [];
-        // this.emptyRow = [];
         this.row = [];
         this.columnsNumber = columnsNumber;
         this.container = container;
-        this.controls = new Controls(this, columnsNumber).render();
         this.addNewRow();
         this.render();
     }
 
     rain() {
+        this.state.wasRain = true;
         this.state.forEach((row, rowIndex, rowArray) => {
-            let firstStoneIndex = null;
-            let lastStoneIndex = null;
+            let firstStoneIndex = row.indexOf(1);
+            let lastStoneIndex = row.lastIndexOf(1);
 
-            row.forEach((element, index, array) => {
-                if (index !== 0 || index !== array.length - 1) {
-                    if (array[index - 1] === 1 && array[index + 1] === 1) {
-                        array[index] = -1;
-                    }
+            for (let i = firstStoneIndex; i < lastStoneIndex; i++) {
+                if (row[i] === 0) {
+                    row[i] = -1;
                 }
-            })
-        })
-        /*         let waterConfig = [];
-                let rowFirstStoneIndex = null;
-                let rowLastStoneIndex = null;
-                this.state.forEach((row, index) => {
-                    waterConfig.push([]);
-                    row.forEach((element, elIndex) => {
-                        if (element === 1 && rowFirstStoneIndex === null) {
-                            rowFirstStoneIndex = elIndex;
-                        }
-                        if (element === 1 && rowFirstStoneIndex !== null && elIndex !== rowFirstStoneIndex) {
-                            rowLastStoneIndex = elIndex;
-                            for (let i = rowLastStoneIndex - 1; i > rowFirstStoneIndex; i--) {
-                                waterConfig[index].push(i);
-                            }
-                            rowFirstStoneIndex = rowLastStoneIndex;
-                            rowLastStoneIndex = null;
-                        }
-                    })
-                    if (!waterConfig[index]) {
-                        waterConfig[index] = null;
-                    }
-                    rowFirstStoneIndex = null;
-                    rowLastStoneIndex = null;
-                })
-        
-                waterConfig.forEach((row, index) => {
-                    if (row) {
-                        row.forEach(element => {
-                            this.state[index][element] = 2;
-                        })
-                    }
-                }) */
+            }
+        });
 
         this.render();
     }
@@ -76,11 +46,12 @@ export default class Wall {
 
     addStone(columnIndex) {
         let wallBorder = 0;
+
         this.state.forEach((row, index, array) => {
-            if (row[columnIndex] && index === array.length - 1) {
+            if (row[columnIndex] === 1 && index === array.length - 1) {
                 this.addNewRow(columnIndex);
             }
-            if (!row[columnIndex] && !wallBorder) {
+            if (row[columnIndex] <= 0 && !wallBorder) {
                 row[columnIndex] = 1;
                 wallBorder = 1;
             }
@@ -90,7 +61,27 @@ export default class Wall {
     }
 
     removeStone(columnIndex) {
+        let column = this.state.map((row) => {
+            return row[columnIndex];
+        });
 
+        let lastStoneIndex = column.lastIndexOf(1);
+
+        if (lastStoneIndex !== -1) {
+            this.state[lastStoneIndex][columnIndex] = 0;
+
+            if (this.state[lastStoneIndex].some(cell => cell === -1)) {
+                this.state[lastStoneIndex].forEach((cell, cellIndex, cellsArray) => {
+                    if (cell === -1) {
+                        cellsArray[cellIndex] = 0;
+                    }
+                });
+
+                this.rain()
+            } else {
+                this.render()
+            };
+        }
     }
 
     render() {

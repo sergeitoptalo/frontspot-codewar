@@ -1,18 +1,24 @@
 import Wall from './wall.js';
+import Controls from './controls.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    //const elevationMap = [1, 0, 2, 3, 5, 6, 8, 7, 6, 0, 0, 0];
-
     let runButton = document.querySelector('#run-button');
 
-
-    //runButton.addEventListener();
-
     let container = document.querySelector('#container');
+    let controls;
+
+    let detectClickTarget = (event) => {
+        controls.detectClickTarget(event)
+    }
 
     runButton.addEventListener('click', () => {
         let initialColumnsNumber = document.querySelector('#columns-number').value;
-        new Wall(initialColumnsNumber, container);
+        let wall = new Wall(initialColumnsNumber, container);
+        if (controls) {
+            controls.getControlsContainer().removeEventListener('click', detectClickTarget);
+        }
+        controls = new Controls(wall, initialColumnsNumber);
+        controls.getControlsContainer().addEventListener('click', detectClickTarget);
     });
 })
 

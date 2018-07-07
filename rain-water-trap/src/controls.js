@@ -3,35 +3,34 @@ export default class Controls {
         this.wall = wall;
         this.columnsNumber = columnsNumber;
         this.controlsContainer = document.querySelector('#controls-container');
-        this.controlsContainer.addEventListener('click', (event) => this.detectClickTarget(event));
+
+        this.render();
+    }
+
+    getControlsContainer() {
+        return this.controlsContainer;
     }
 
     detectClickTarget(event) {
         let target = event.target;
         if (target.dataset) {
             let action = target.dataset.action;
-            switch(action) {
+            switch (action) {
                 case 'increase': {
-                    //target.parentNode.dataset.wallLevel++;
                     this.wall.addStone(target.parentNode.dataset.column);
-
                     break;
                 };
-
                 case 'reduce': {
-                    this.wall.removeStone(target.dataset.column);
+                    this.wall.removeStone(target.parentNode.dataset.column);
                     break;
                 };
-
                 case 'run-rain': {
                     this.wall.rain();
                     break;
                 }
                 default: break;
             }
-            
         }
-
     }
 
     render() {
@@ -39,18 +38,19 @@ export default class Controls {
         for (let i = 0; i < this.columnsNumber; i++) {
             controlsMarkup += `
         <td data-column="${i}">
-            <button data-action="increase">+</button>
-            <button data-action="reduce">-</button>
+            <button data-action="increase">&#9650;</button>
+            <button data-action="reduce">&#9660;</button>
         </td>`
         }
-        
+
         this.controlsContainer.innerHTML = `
-        <table>
+        <button data-action="run-rain" class="rain-button">Rain</button>
+        <table class="controls-table">
             <tr>
                 ${controlsMarkup}
             </tr>
         </table>
-        <button data-action="run-rain">Rain</button>
+        
     `
     }
 }

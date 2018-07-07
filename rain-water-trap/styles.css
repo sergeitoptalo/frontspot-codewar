@@ -2,14 +2,68 @@
     box-sizing: border-box;
 }
 
+body, input, button {
+    font-family: 'Roboto', sans-serif;
+}
+
+input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+input[type=number] {
+    width: 80px;
+}
+
+button {
+    background: #125881;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+button:hover {
+    background: #073550;
+}
+
+.columns-number-container {
+    background: #f5f9ff;
+    float: left;
+    left: 10px;
+    padding: 20px;
+    position: fixed;
+    text-align: center;
+    top: 10px;
+}
+
+.columns-number-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
 .container table {
-    border-left: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
 }
 
 .container table,
 .controls-container table {
+    margin: 0 auto;
     table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.container table td {
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.container table tr td:last-child {
+    border-right: 0;
 }
 
 .container td,
@@ -19,27 +73,45 @@
     width: 40px;
 }
 
+.controls-container {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
 .controls-container td {
     border: 1px solid #ccc;
 }
 
 .container td.wall {
     background: #000;
+    border-color: #000;
 }
 
 .container td.water {
     background: rgb(17, 141, 243);
 }
 
-.controls-container {
-    opacity: 0;
-    transition: opacity .5s;
-}
-
-.controls-container:hover {
-    opacity: 1;
-}
-
 .controls-container td button {
     display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.controls-table button {
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.rain-button {
+    background: rgb(255, 212, 18);
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 7px 20px;
+    text-transform: uppercase;
+    width: auto;
+}
+
+.rain-button:hover {
+    background: rgb(228, 186, 0);
 }
