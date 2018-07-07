@@ -198,6 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     stopButton.addEventListener('click', () => {
         startButton.disabled = false;
-        game.stopGame()
+        game.stopGame();
     });
 });
