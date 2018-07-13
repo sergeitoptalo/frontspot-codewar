@@ -1,0 +1,94 @@
+body {
+    background: #3e1a68;
+}
+
+.sleeping {
+    -webkit-animation: sleep 5s ease-out /*infinite*/ normal;
+    animation: sleep 5s ease-out /*infinite*/ normal;
+    transform-origin: 25px 105px;
+    transform: translateZ(0);
+}
+
+.awakening {
+    -webkit-animation: awake 5s ease-out /*infinite*/ normal;
+    animation: awake 0.2s ease-out 1 normal;
+}
+
+.left-wheel {
+  animation: wheelRotation 2s linear infinite;
+  transform-origin: 25px 105px;
+}
+
+.right-wheel {
+  animation: wheelRotation 2s linear infinite;
+  transform-origin: 95px 105px;
+}
+
+.drawing {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 5s linear forwards;
+}
+
+#pupils-group {
+  opacity: 0;
+}
+
+#pupils-group.open {
+  opacity: 1;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+@keyframes sleep {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+
+@keyframes awake {
+    0% {
+      transform: translateY(0);
+    }
+  
+    50% {
+      transform: translateY(-10px);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+}
+
+
+@keyframes wheelRotation {
+   from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+
+      transform: rotate(360deg);
+    }
+}
+
