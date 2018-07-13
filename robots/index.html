@@ -46,14 +46,14 @@
                             <rect x="78" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                             <rect x="52" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                         </g>
-                        <!-- <animate id="left-eye-animation" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
-                            to="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90" fill="freeze" />
-                        <animate attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
-                            to="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90" dur="0.2s" fill="freeze" /> -->
+                       <animate id="right-eye-animation" href="#right-eye" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
+                            to="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90" dur="0.2s" begin="indefinite" fill="freeze" /> 
+                        <animate id="left-eye-animation" href="#left-eye" attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
+                            to="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90" dur="0.2s" begin="indefinite" fill="freeze" />
                     </g>
                 </g>
                 <g clip-path="url(#leftWheel)">
-                    <g>
+                    <g class="left-wheel">
                         <circle cx="25" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="25" cy="105" r="4" fill="#fff" />
                         <line x1="25" y1="105" x2="25" y2="95" stroke="#fff" stroke-width="2" />
@@ -70,7 +70,7 @@
                     <path d="M83 113 C 100 112, 105 110, 108 109 V 120 H 83 Z" stroke="red" fill="transparent" />
                 </clipPath>
                 <g clip-path="url(#rightWheel)">
-                    <g>
+                    <g class="right-wheel">
                         <circle cx="95" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="95" cy="105" r="4" fill="#fff" />
                         <line x1="95" y1="105" x2="95" y2="95" stroke="#fff" stroke-width="2" />
