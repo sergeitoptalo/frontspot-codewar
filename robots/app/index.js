@@ -2,20 +2,35 @@ import { HorizontalRobot } from './robot/robot';
 import { getRobotAConfig, getRobotAAreaConfig } from './config/robotA';
 
 document.addEventListener('DOMContentLoaded', function () {
-    var startButton = document.querySelector('#robotA-go-button');
-    var stopButton = document.querySelector('#robotA-stop-button');
-    
+    var startAButton = document.querySelector('#robotA-go-button');
+    var stopAButton = document.querySelector('#robotA-stop-button');
+
+    var startBButton = document.querySelector('#robotB-go-button');
+    var stopBButton = document.querySelector('#robotB-stop-button');
+
     var robotAConfig = getRobotAConfig();
     var robotAArea = getRobotAAreaConfig();
     var robotA = new HorizontalRobot(robotAConfig, robotAArea);
 
-    startButton.addEventListener('click', function (event) {
+    var robotBConfig = getRobotAConfig();
+    var robotBArea = getRobotAAreaConfig();
+    var robotB = new HorizontalRobot(robotBConfig, robotBArea);
+
+    startAButton.addEventListener('click', function (event) {
         robotA.go();
     });
 
-    stopButton.addEventListener('click', function(event) {
+    stopAButton.addEventListener('click', function (event) {
         robotA.stop();
-    })
+    });
+
+    startBButton.addEventListener('click', function (event) {
+        robotB.go();
+    });
+
+    stopBButton.addEventListener('click', function (event) {
+        robotB.stop();
+    });
 });
 
 

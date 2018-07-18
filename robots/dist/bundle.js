@@ -327,20 +327,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    var startButton = document.querySelector('#robotA-go-button');
-    var stopButton = document.querySelector('#robotA-stop-button');
-    
+    var startAButton = document.querySelector('#robotA-go-button');
+    var stopAButton = document.querySelector('#robotA-stop-button');
+
+    var startBButton = document.querySelector('#robotB-go-button');
+    var stopBButton = document.querySelector('#robotB-stop-button');
+
     var robotAConfig = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAConfig"])();
     var robotAArea = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAAreaConfig"])();
     var robotA = new _robot_robot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"](robotAConfig, robotAArea);
 
-    startButton.addEventListener('click', function (event) {
+    var robotBConfig = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAConfig"])();
+    var robotBArea = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAAreaConfig"])();
+    var robotB = new _robot_robot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"](robotBConfig, robotBArea);
+
+    startAButton.addEventListener('click', function (event) {
         robotA.go();
     });
 
-    stopButton.addEventListener('click', function(event) {
+    stopAButton.addEventListener('click', function (event) {
         robotA.stop();
-    })
+    });
+
+    startBButton.addEventListener('click', function (event) {
+        robotB.go();
+    });
+
+    stopBButton.addEventListener('click', function (event) {
+        robotB.stop();
+    });
 });
 
 
