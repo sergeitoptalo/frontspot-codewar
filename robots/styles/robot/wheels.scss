@@ -1,0 +1,42 @@
+.left-wheel-rotate-forward {
+    animation: wheelRotationForward 2s linear infinite;
+    transform-origin: 25px 105px;
+}
+  
+.right-wheel-rotate-forward {
+    animation: wheelRotationForward 2s linear infinite;
+    transform-origin: 95px 105px;
+}
+
+
+@keyframes wheelRotationForward {
+    from {
+       transform: rotate(0deg);
+     }
+   
+     to {
+       transform: rotate(360deg);
+     }
+}
+
+
+.left-wheel-rotate-back {
+    animation: wheelRotationBack 2s linear infinite;
+    transform-origin: 25px 105px;
+}
+  
+.right-wheel-rotate-back {
+    animation: wheelRotationBack 2s linear infinite;
+    transform-origin: 95px 105px;
+}
+
+
+@keyframes wheelRotationBack {
+    from {
+       transform: rotate(0deg);
+     }
+   
+     to {
+       transform: rotate(-360deg);
+     }
+}

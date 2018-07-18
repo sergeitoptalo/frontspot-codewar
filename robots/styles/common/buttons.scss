@@ -1,0 +1,12 @@
+button {
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 15px;
+
+    &:hover {
+        background: lighten($mainColor, 20%)
+    }
+}
