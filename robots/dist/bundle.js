@@ -127,13 +127,8 @@ function RobotAnimation({
 
     this.timers = {};
 
-
-    // this.openEyeEndpoint.addEventListener('animationend', this.animate.lookingAround);
-    // this.animate.awakening = this.animate.awakening.bind(this);
     this.eyeBlinking = this.eyeBlinking.bind(this);
     this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
-    //this.animate.openEyes = this.animate.openEyes.bind(this);
-    //this.robotBody.addEventListener('animationend', this.animate.awakening);
 
     this.timers = {};
 }
@@ -165,7 +160,6 @@ RobotAnimation.prototype = {
         _this.checkSleeping();
 
         return new Promise(function (resolve, reject) {
-
             _this.rightEyeOpenAnimation.beginElement();
             _this.leftEyeOpenAnimation.beginElement();
             _this.pupilsGroup.classList.add('open');
@@ -177,6 +171,7 @@ RobotAnimation.prototype = {
                     .then(function () {
                         _this.eyeBlinking(resolve);
                     });
+
                 window.clearTimeout(_this.timers.openEyes);
                 _this.robotBody.classList.remove('awakening');
 
@@ -217,19 +212,23 @@ RobotAnimation.prototype = {
         var _this = this;
 
         return {
-            forward: function() {
+            forward: function () {
+                _this.leftWheel.classList.remove('left-wheel-rotate-back');
+                _this.rightWheel.classList.remove('right-wheel-rotate-back');
                 _this.leftWheel.classList.add('left-wheel-rotate-forward');
                 _this.rightWheel.classList.add('right-wheel-rotate-forward');
             },
-            back: function() {
-
+            back: function () {
+                _this.leftWheel.classList.remove('left-wheel-rotate-forward');
+                _this.rightWheel.classList.remove('right-wheel-rotate-forward');
+                _this.leftWheel.classList.add('left-wheel-rotate-back');
+                _this.rightWheel.classList.add('right-wheel-rotate-back');
             }
         }
-       // this.robotBody.classList.add('moving');
-        
+        // this.robotBody.classList.add('moving');
     },
 
-    stopMoving: function() {
+    stopMoving: function () {
         this.leftWheel.classList.remove('left-wheel-rotate-forward');
         this.rightWheel.classList.remove('right-wheel-rotate-forward');
         this.leftWheel.classList.remove('left-wheel-rotate-back');
@@ -426,14 +425,14 @@ HorizontalRobot.prototype = {
                 .then(function () {
                     _this.robotAnimation.awakening()
                         .then(function () {
-                            _this.robotAnimation.moving().forward();
+                            _this.robot.speedX > 0 ? _this.robotAnimation.moving().forward() : _this.robotAnimation.moving().back();
                             _this.frames.robotA = window.requestAnimationFrame(_this.step);
                         })
                 })
 
             // this.robotBody.classList.add('awakening');
         } else {
-            this.robotAnimation.moving().forward();
+            _this.robot.speedX > 0 ? _this.robotAnimation.moving().forward() : _this.robotAnimation.moving().back();
             _this.frames.robotA = window.requestAnimationFrame(_this.step);
         }
     },
@@ -448,11 +447,13 @@ HorizontalRobot.prototype = {
         if (this.robot.posX + this.robot.robotWidth > this.area.width) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
+            this.robotAnimation.moving().back();
         }
         // вылетел ли мяч левее стены?
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
+            this.robotAnimation.moving().forward();
         }
 
         this.update();

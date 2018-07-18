@@ -22,14 +22,14 @@ HorizontalRobot.prototype = {
                 .then(function () {
                     _this.robotAnimation.awakening()
                         .then(function () {
-                            _this.robotAnimation.moving().forward();
+                            _this.robot.speedX > 0 ? _this.robotAnimation.moving().forward() : _this.robotAnimation.moving().back();
                             _this.frames.robotA = window.requestAnimationFrame(_this.step);
                         })
                 })
 
             // this.robotBody.classList.add('awakening');
         } else {
-            this.robotAnimation.moving().forward();
+            _this.robot.speedX > 0 ? _this.robotAnimation.moving().forward() : _this.robotAnimation.moving().back();
             _this.frames.robotA = window.requestAnimationFrame(_this.step);
         }
     },
@@ -44,11 +44,13 @@ HorizontalRobot.prototype = {
         if (this.robot.posX + this.robot.robotWidth > this.area.width) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
+            this.robotAnimation.moving().back();
         }
         // вылетел ли мяч левее стены?
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
+            this.robotAnimation.moving().forward();
         }
 
         this.update();
