@@ -377,7 +377,14 @@ function getRobotBConfig() {
 function getRobotBAreaConfig() {
     var robotBArea = document.querySelector('#robotB-area');
     var areaWidth = robotBArea.offsetWidth;
-    var areaHeight = robotBArea.offsetHeight;
+
+    var body = document.body;
+    var html = document.documentElement;
+
+    var a = window.getComputedStyle(body, null).getPropertyValue('padding');
+    var documentHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    var areaHeight = documentHeight - robotBArea.offsetTop;
+    robotBArea.style.height = `${areaHeight - Number(window.getComputedStyle(body, null).getPropertyValue('padding').slice(0, -2))}px`; // subtracts the value of body padding
 
     return {
         height: areaHeight,
