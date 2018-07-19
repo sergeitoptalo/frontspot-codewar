@@ -7,6 +7,7 @@ export function HorizontalRobot({ robot, animatedElements } = config, area) {
     this.robotAnimation.checkSleeping(this.isSleeping);
     this.area = area;
     this.step = this.step.bind(this);
+    this.stepVertical = this.stepVertical.bind(this);
     this.update = this.update.bind(this);
 
     this.frames = {};
@@ -61,5 +62,30 @@ HorizontalRobot.prototype = {
     stop: function () {
         this.robotAnimation.stopMoving();
         window.cancelAnimationFrame(this.frames.robotA);
+    },
+
+    stepVertical() {
+        this.robot.posY += this.robot.speedY;
+        // вылетел ли мяч правее стены?
+        if (this.robot.posY + this.robot.robotHeight > this.area.height) {
+            this.robot.speedY = -this.robot.speedY;
+            this.robot.posY = this.area.height - this.robot.robotHeight;
+            this.robotAnimation.moving().back();
+        }
+        // вылетел ли мяч левее стены?
+        if (this.robot.posX < 0) {
+            this.robot.speedX = -this.robot.speedX;
+            this.robot.posX = 0;
+            this.robotAnimation.moving().forward();
+        }
+
+        this.update();
+
+        this.frames.robotA = window.requestAnimationFrame(this.step);
+    },
+
+    vertical() {
+        window.cancelAnimationFrame(this.frames.robotA);
+        this.frames.robotB = window.requestAnimationFrame(this.stepVertical);
     }
 }

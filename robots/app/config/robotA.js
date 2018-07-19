@@ -16,11 +16,12 @@ export function getRobotAConfig() {
     var robotAHeight = robotAModel.getBoundingClientRect().height;
     var robotAWidth = robotAModel.getBoundingClientRect().width;
 
-    var posX = robotAModel.getBoundingClientRect().x;
-    var posY = robotAModel.getBoundingClientRect().y;
+    var posX = 0/* robotAModel.getBoundingClientRect().x */;
+    var posY = 0/* robotAModel.getBoundingClientRect().y */;
 
     return {
         robot: {
+            id: 1,
             svg: robotAModel,
             element: robot,
             posX,

@@ -16,11 +16,12 @@ export function getRobotBConfig() {
     var robotBHeight = robotBModel.getBoundingClientRect().height;
     var robotBWidth = robotBModel.getBoundingClientRect().width;
 
-    var posX = robotBModel.getBoundingClientRect().x;
-    var posY = robotBModel.getBoundingClientRect().y;
+    var posX = 0/* robotBModel.getBoundingClientRect().x */;
+    var posY = 0/* robotBModel.getBoundingClientRect().y */;
 
     return {
         robot: {
+            id: 2,
             svg: robotBModel,
             element: robot,
             posX,
@@ -28,6 +29,7 @@ export function getRobotBConfig() {
             robotHeight: robotBHeight,
             robotWidth: robotBWidth,
             speedX: 1.1,
+            speedY: 1.1,
             accelX: 0.2,
         },
         animatedElements: {
