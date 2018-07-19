@@ -1,5 +1,6 @@
 import { HorizontalRobot } from './robot/robot';
 import { getRobotAConfig, getRobotAAreaConfig } from './config/robotA';
+import { getRobotBConfig, getRobotBAreaConfig } from './config/robotB';
 
 document.addEventListener('DOMContentLoaded', function () {
     var startAButton = document.querySelector('#robotA-go-button');
@@ -12,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var robotAArea = getRobotAAreaConfig();
     var robotA = new HorizontalRobot(robotAConfig, robotAArea);
 
-    var robotBConfig = getRobotAConfig();
-    var robotBArea = getRobotAAreaConfig();
+    var robotBConfig = getRobotBConfig();
+    var robotBArea = getRobotBAreaConfig();
     var robotB = new HorizontalRobot(robotBConfig, robotBArea);
 
     startAButton.addEventListener('click', function (event) {

@@ -312,6 +312,79 @@ function getRobotAAreaConfig() {
 
 /***/ }),
 
+/***/ "./app/config/robotB.js":
+/*!******************************!*\
+  !*** ./app/config/robotB.js ***!
+  \******************************/
+/*! exports provided: getRobotBConfig, getRobotBAreaConfig */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRobotBConfig", function() { return getRobotBConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRobotBAreaConfig", function() { return getRobotBAreaConfig; });
+function getRobotBConfig() {
+    var robotAModel = document.querySelector('#robotA-svg');
+    var robot = document.querySelector('#robotA');
+    var robotBody = robot.querySelector('#robotA-body');
+    var rightEyeOpenAnimation = robot.querySelector('#right-eye-open-animation');
+    var leftEyeOpenAnimation = robot.querySelector('#left-eye-open-animation');
+    var rightEyeCloseAnimation = robot.querySelector('#right-eye-close-animation');
+    var leftEyeCloseAnimation = robot.querySelector('#left-eye-close-animation');
+    var eyesGroup = robot.querySelector('#eyes-group');
+    var pupilsGroup = eyesGroup.querySelector('#pupils-group');
+    var leftEye = eyesGroup.querySelector('#left-eye');
+    var rightEye = eyesGroup.querySelector('#right-eye');
+    var leftWheel = robot.querySelector('#left-wheel');
+    var rightWheel = robot.querySelector('#right-wheel');
+
+    var robotAHeight = robotAModel.getBoundingClientRect().height;
+    var robotAWidth = robotAModel.getBoundingClientRect().width;
+
+    var posX = robotAModel.getBoundingClientRect().x;
+    var posY = robotAModel.getBoundingClientRect().y;
+
+    return {
+        robot: {
+            svg: robotAModel,
+            element: robot,
+            posX,
+            posY,
+            robotHeight: robotAHeight,
+            robotWidth: robotAWidth,
+            speedX: 1.1,
+            accelX: 0.2,
+        },
+        animatedElements: {
+            robotBody,
+            rightEyeOpenAnimation,
+            leftEyeOpenAnimation,
+            rightEyeCloseAnimation,
+            leftEyeCloseAnimation,
+            eyesGroup,
+            pupilsGroup,
+            leftEye,
+            rightEye,
+            leftWheel,
+            rightWheel
+        }
+    }
+};
+
+function getRobotBAreaConfig() {
+    var robotBArea = document.querySelector('#robotB-area');
+    var areaWidth = robotBArea.offsetWidth;
+    var areaHeight = robotBArea.offsetHeight;
+
+    return {
+        height: areaHeight,
+        width: areaWidth
+    }
+}
+
+
+/***/ }),
+
 /***/ "./app/index.js":
 /*!**********************!*\
   !*** ./app/index.js ***!
@@ -323,6 +396,8 @@ function getRobotAAreaConfig() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _robot_robot__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./robot/robot */ "./app/robot/robot.js");
 /* harmony import */ var _config_robotA__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config/robotA */ "./app/config/robotA.js");
+/* harmony import */ var _config_robotB__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config/robotB */ "./app/config/robotB.js");
+
 
 
 
@@ -337,8 +412,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var robotAArea = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAAreaConfig"])();
     var robotA = new _robot_robot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"](robotAConfig, robotAArea);
 
-    var robotBConfig = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAConfig"])();
-    var robotBArea = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_1__["getRobotAAreaConfig"])();
+    var robotBConfig = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_2__["getRobotBConfig"])();
+    var robotBArea = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_2__["getRobotBAreaConfig"])();
     var robotB = new _robot_robot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"](robotBConfig, robotBArea);
 
     startAButton.addEventListener('click', function (event) {

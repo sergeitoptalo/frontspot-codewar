@@ -2,16 +2,16 @@ export function getRobotAConfig() {
     var robotAModel = document.querySelector('#robotA-svg');
     var robot = document.querySelector('#robotA');
     var robotBody = robot.querySelector('#robotA-body');
-    var rightEyeOpenAnimation = robot.querySelector('#right-eye-open-animation');
-    var leftEyeOpenAnimation = robot.querySelector('#left-eye-open-animation');
-    var rightEyeCloseAnimation = robot.querySelector('#right-eye-close-animation');
-    var leftEyeCloseAnimation = robot.querySelector('#left-eye-close-animation');
-    var eyesGroup = robot.querySelector('#eyes-group');
-    var pupilsGroup = eyesGroup.querySelector('#pupils-group');
-    var leftEye = eyesGroup.querySelector('#left-eye');
-    var rightEye = eyesGroup.querySelector('#right-eye');
-    var leftWheel = robot.querySelector('#left-wheel');
-    var rightWheel = robot.querySelector('#right-wheel');
+    var rightEyeOpenAnimation = robot.querySelector('#A-right-eye-open-animation');
+    var leftEyeOpenAnimation = robot.querySelector('#A-left-eye-open-animation');
+    var rightEyeCloseAnimation = robot.querySelector('#A-right-eye-close-animation');
+    var leftEyeCloseAnimation = robot.querySelector('#A-left-eye-close-animation');
+    var eyesGroup = robot.querySelector('#A-eyes-group');
+    var pupilsGroup = eyesGroup.querySelector('#A-pupils-group');
+    var leftEye = eyesGroup.querySelector('#A-left-eye');
+    var rightEye = eyesGroup.querySelector('#A-right-eye');
+    var leftWheel = robot.querySelector('#A-left-wheel');
+    var rightWheel = robot.querySelector('#A-right-wheel');
 
     var robotAHeight = robotAModel.getBoundingClientRect().height;
     var robotAWidth = robotAModel.getBoundingClientRect().width;

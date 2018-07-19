@@ -29,42 +29,42 @@
                     <clipPath id="robotA-bottom-ellipse">
                         <rect x="5" y="103" width="112" height="15" />
                     </clipPath>
-                    <ellipse id="robot-body-endpoint" stroke="#ffffff" ry="9" rx="54" id="svg_29" cy="60" cx="60" fill-opacity="null" stroke-opacity="null"
+                    <ellipse stroke="#ffffff" ry="9" rx="54" id="svg_29" cy="60" cx="60" fill-opacity="null" stroke-opacity="null"
                         stroke-width="1.5" fill="none" />
                     <ellipse stroke="#ffffff" ry="9" rx="54" id="svg_31" cy="103" cx="60" fill-opacity="null" stroke-opacity="null" stroke-width="1.5"
                         fill="none" clip-path="url(#robotA-bottom-ellipse)" />
                     <line x1="6" y1="60" x2="6" y2="103" stroke="#fff" stroke-width="1.5" />
                     <line x1="114" y1="60" x2="114" y2="103" stroke="#fff" stroke-width="1.5" />
 
-                    <g id="eyes-group">
-                        <path id="right-eye" class="open-eye-endpoint" d="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" stroke="#fff"
+                    <g id="A-eyes-group">
+                        <path id="A-right-eye" class="open-eye-endpoint" d="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" stroke="#fff"
                             stroke-width="1.5" fill="transparent" />
-                        <path id="left-eye" d="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" stroke="#fff" stroke-width="1.5" fill="transparent"
+                        <path id="A-left-eye" d="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" stroke="#fff" stroke-width="1.5" fill="transparent"
                         />
-                        <g id="pupils-group">
+                        <g id="A-pupils-group">
                             <rect x="78" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                             <rect x="52" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                         </g>
-                        <animate id="right-eye-open-animation" href="#right-eye" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
+                        <animate id="A-right-eye-open-animation" href="#A-right-eye" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
                             to="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
-                        <animate id="left-eye-open-animation" href="#left-eye" attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
+                        <animate id="A-left-eye-open-animation" href="#A-left-eye" attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
                             to="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
 
-                        <animate id="right-eye-close-animation" href="#right-eye" attributeName="d" attributeType="XML" from="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90"
+                        <animate id="A-right-eye-close-animation" href="#A-right-eye" attributeName="d" attributeType="XML" from="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90"
                             to="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
-                        <animate id="left-eye-close-animation" href="#left-eye" attributeName="d" attributeType="XML" from="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90"
+                        <animate id="left-eye-close-animation" href="#A-left-eye" attributeName="d" attributeType="XML" from="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90"
                             to="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" dur="0.2s" begin="indefinite" fill="freeze"
                         />
                     </g>
                 </g>
-                <clipPath id="leftWheelPath">
+                <clipPath id="A-leftWheelPath">
                     <path d="M10 108 C 30 112, 32 113, 38 112 V 120 H 10 Z" stroke="red" fill="transparent" />
                 </clipPath>
-                <g clip-path="url(#leftWheelPath)">
-                    <g id="left-wheel">
+                <g clip-path="url(#A-leftWheelPath)">
+                    <g id="A-left-wheel">
                         <circle cx="25" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="25" cy="105" r="4" fill="#fff" />
                         <line x1="25" y1="105" x2="25" y2="95" stroke="#fff" stroke-width="2" />
@@ -77,11 +77,11 @@
                         <line x1="25" y1="105" x2="17.9" y2="97.9" stroke="#fff" stroke-width="2" />
                     </g>
                 </g>
-                <clipPath id="rightWheelPath">
+                <clipPath id="A-rightWheelPath">
                     <path d="M83 113 C 100 112, 105 110, 108 109 V 120 H 83 Z" stroke="red" fill="transparent" />
                 </clipPath>
-                <g clip-path="url(#rightWheelPath)">
-                    <g id="right-wheel">
+                <g clip-path="url(#A-rightWheelPath)">
+                    <g id="A-right-wheel">
                         <circle cx="95" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="95" cy="105" r="4" fill="#fff" />
                         <line x1="95" y1="105" x2="95" y2="95" stroke="#fff" stroke-width="2" />
@@ -113,7 +113,7 @@
                 </g>
             </g>
             <g id="robotB">
-                <g id="robotA-body">
+                <g id="robotB-body">
                     <clipPath id="robotB-bottom-ellipse">
                         <rect x="5" y="103" width="112" height="15" />
                     </clipPath>
@@ -124,35 +124,34 @@
                     <line x1="6" y1="60" x2="6" y2="103" stroke="#fff" stroke-width="1.5" />
                     <line x1="114" y1="60" x2="114" y2="103" stroke="#fff" stroke-width="1.5" />
 
-                    <g id="eyes-group">
-                        <path id="right-eye" class="open-eye-endpoint" d="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" stroke="#fff"
+                    <g id="B-eyes-group">
+                        <path id="B-right-eye" class="open-eye-endpoint" d="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" stroke="#fff"
                             stroke-width="1.5" fill="transparent" />
-                        <path id="left-eye" d="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" stroke="#fff" stroke-width="1.5" fill="transparent"
+                        <path id="B-left-eye" d="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" stroke="#fff" stroke-width="1.5" fill="transparent"
                         />
-                        <g id="pupils-group">
+                        <g id="B-pupils-group">
                             <rect x="78" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                             <rect x="52" y="85" width="8" height="15" rx="6" ry="6" fill="#fff" opacity="0.7" />
                         </g>
-                        <animate id="right-eye-open-animation" href="#right-eye" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
+                        <animate id="B-right-eye-open-animation" href="#B-right-eye" attributeName="d" attributeType="XML" from="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90"
                             to="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
-                        <animate id="left-eye-open-animation" href="#left-eye" attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
+                        <animate id="B-left-eye-open-animation" href="#B-left-eye" attributeName="d" attributeType="XML" from="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89"
                             to="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
-
-                        <animate id="right-eye-close-animation" href="#right-eye" attributeName="d" attributeType="XML" from="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90"
+                        <animate id="B-right-eye-close-animation" href="#B-right-eye" attributeName="d" attributeType="XML" from="M70 90 C 69 72, 91 72, 90 90, M90 90 C 91 107, 69 107, 70 90"
                             to="M70 90 C 74 95, 76 92, 90 89, M90 89 C 76 92, 74 95, 70 90" dur="0.2s" begin="indefinite" fill="freeze"
                         />
-                        <animate id="left-eye-close-animation" href="#left-eye" attributeName="d" attributeType="XML" from="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90"
+                        <animate id="B-left-eye-close-animation" href="#B-left-eye" attributeName="d" attributeType="XML" from="M44 90 C 43 72, 65 72, 64 90, M64 90 C 65 107, 43 107, 44 90"
                             to="M44 89 C 58 92, 60 95, 64 90, M64 90 C 60 95, 58 92, 44 89" dur="0.2s" begin="indefinite" fill="freeze"
                         />
                     </g>
                 </g>
-                <clipPath id="leftWheelPath">
+                <clipPath id="B-leftWheelPath">
                     <path d="M10 108 C 30 112, 32 113, 38 112 V 120 H 10 Z" stroke="red" fill="transparent" />
                 </clipPath>
-                <g clip-path="url(#leftWheelPath)">
-                    <g id="left-wheel">
+                <g clip-path="url(#B-leftWheelPath)">
+                    <g id="B-left-wheel">
                         <circle cx="25" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="25" cy="105" r="4" fill="#fff" />
                         <line x1="25" y1="105" x2="25" y2="95" stroke="#fff" stroke-width="2" />
@@ -165,11 +164,11 @@
                         <line x1="25" y1="105" x2="17.9" y2="97.9" stroke="#fff" stroke-width="2" />
                     </g>
                 </g>
-                <clipPath id="rightWheelPath">
+                <clipPath id="B-rightWheelPath">
                     <path d="M83 113 C 100 112, 105 110, 108 109 V 120 H 83 Z" stroke="red" fill="transparent" />
                 </clipPath>
-                <g clip-path="url(#rightWheelPath)">
-                    <g id="right-wheel">
+                <g clip-path="url(#B-rightWheelPath)">
+                    <g id="B-right-wheel">
                         <circle cx="95" cy="105" r="10" stroke="#fff" stroke-width="2.5" fill="none" />
                         <circle cx="95" cy="105" r="4" fill="#fff" />
                         <line x1="95" y1="105" x2="95" y2="95" stroke="#fff" stroke-width="2" />
