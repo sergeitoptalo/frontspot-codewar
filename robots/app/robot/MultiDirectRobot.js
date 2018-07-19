@@ -10,6 +10,10 @@ MultiDirectRobot.prototype = Object.create(HorizontalRobot.prototype);
 MultiDirectRobot.prototype.constructor = MultiDirectRobot;
 
 MultiDirectRobot.prototype.stepVertical = function () {
+    if (this.frames[this.robot.id]) {
+        window.cancelAnimationFrame(this.frames[this.robot.id]);
+        delete this.frames[this.robot.id];
+    }
     this.robot.posY += this.robot.speedY;
 
     if (this.robot.posY + this.robot.robotHeight > this.area.height) {

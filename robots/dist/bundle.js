@@ -515,8 +515,12 @@ function HorizontalRobot({ robot, animatedElements } = config, area) {
 
 HorizontalRobot.prototype = {
     go: function () {
-        var _this = this;
-        _this.frames[this.robot.id] = window.requestAnimationFrame(_this.step);
+        for (var frame in this.frames) {
+            if (this.frames.hasOwnProperty(frame)) {
+                window.cancelAnimationFrame(this.frames[frame]);
+            }
+        }
+        this.frames[this.robot.id] = window.requestAnimationFrame(this.step);
     },
 
     update: function () {
@@ -573,6 +577,10 @@ MultiDirectRobot.prototype = Object.create(_HorizontalRobot__WEBPACK_IMPORTED_MO
 MultiDirectRobot.prototype.constructor = MultiDirectRobot;
 
 MultiDirectRobot.prototype.stepVertical = function () {
+    if (this.frames[this.robot.id]) {
+        window.cancelAnimationFrame(this.frames[this.robot.id]);
+        delete this.frames[this.robot.id];
+    }
     this.robot.posY += this.robot.speedY;
 
     if (this.robot.posY + this.robot.robotHeight > this.area.height) {

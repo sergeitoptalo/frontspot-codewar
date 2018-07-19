@@ -11,8 +11,12 @@ export function HorizontalRobot({ robot, animatedElements } = config, area) {
 
 HorizontalRobot.prototype = {
     go: function () {
-        var _this = this;
-        _this.frames[this.robot.id] = window.requestAnimationFrame(_this.step);
+        for (var frame in this.frames) {
+            if (this.frames.hasOwnProperty(frame)) {
+                window.cancelAnimationFrame(this.frames[frame]);
+            }
+        }
+        this.frames[this.robot.id] = window.requestAnimationFrame(this.step);
     },
 
     update: function () {
