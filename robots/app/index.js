@@ -1,6 +1,6 @@
-//import { HorizontalRobot } from './robot/robot';
 import { HorizontalRobot } from './robot/HorizontalRobot';
 import { MultiDirectRobot } from './robot/MultiDirectRobot';
+import { AnimatedRobot } from './animation/AnimatedRobot';
 import { getRobotAConfig, getRobotAAreaConfig } from './config/robotA';
 import { getRobotBConfig, getRobotBAreaConfig } from './config/robotB';
 
@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var stopBButton = document.querySelector('#robotB-stop-button');
 
     var robotAConfig = getRobotAConfig();
-    var robotAArea = getRobotAAreaConfig();
-    var robotA = new HorizontalRobot(robotAConfig, robotAArea);
+    //var robotAArea = getRobotAAreaConfig();
+    var robotA = new AnimatedRobot(HorizontalRobot, robotAConfig);
 
     var robotBConfig = getRobotBConfig();
     var robotBArea = getRobotBAreaConfig();
-    var robotB = new MultiDirectRobot(robotBConfig, robotBArea);
+    var robotB = new AnimatedRobot(MultiDirectRobot, robotBConfig);
 
     startAButton.addEventListener('click', function (event) {
-        robotA.go();
+        robotA.moveHorizontally();
     });
 
     stopAButton.addEventListener('click', function (event) {
@@ -29,15 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     startBButton.addEventListener('click', function (event) {
-        robotB.go();
+        robotB.moveHorizontally();
     });
 
     stopBButton.addEventListener('click', function (event) {
         robotB.stop();
     });
 
-    verticalMove.addEventListener('click', function() {
-        robotB.vertical();
+    verticalMove.addEventListener('click', function () {
+        robotB.moveVertically();
     })
 });
 

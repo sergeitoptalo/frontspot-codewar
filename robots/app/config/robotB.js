@@ -16,8 +16,8 @@ export function getRobotBConfig() {
     var robotBHeight = robotBModel.getBoundingClientRect().height;
     var robotBWidth = robotBModel.getBoundingClientRect().width;
 
-    var posX = 0/* robotBModel.getBoundingClientRect().x */;
-    var posY = 0/* robotBModel.getBoundingClientRect().y */;
+    var posX = 0;
+    var posY = 0;
 
     return {
         robot: {
@@ -44,7 +44,8 @@ export function getRobotBConfig() {
             rightEye,
             leftWheel,
             rightWheel
-        }
+        },
+        area: getRobotBAreaConfig()
     }
 };
 

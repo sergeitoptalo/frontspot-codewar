@@ -1,4 +1,3 @@
-import { RobotAnimation } from '../animation/animation';
 import { HorizontalRobot } from './HorizontalRobot';
 
 export function MultiDirectRobot(config, area) {
@@ -31,7 +30,7 @@ MultiDirectRobot.prototype.stepVertical = function () {
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }
 
-MultiDirectRobot.prototype.vertical = function () {
+MultiDirectRobot.prototype.moveVertically = function () {
     window.cancelAnimationFrame(this.frames[this.robot.id]);
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }

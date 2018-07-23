@@ -1,16 +1,16 @@
-import { RobotAnimation } from '../animation/animation';
-
-export function HorizontalRobot({ robot, animatedElements } = config, area) {
+export function HorizontalRobot({ robot, area } = config) {
     this.robot = robot;
     this.area = area;
+
     this.step = this.step.bind(this);
     this.update = this.update.bind(this);
 
+    this.direction = 'right';
     this.frames = {};
 }
 
 HorizontalRobot.prototype = {
-    go: function () {
+    moveHorizontally: function () {
         for (var frame in this.frames) {
             if (this.frames.hasOwnProperty(frame)) {
                 window.cancelAnimationFrame(this.frames[frame]);
@@ -29,11 +29,13 @@ HorizontalRobot.prototype = {
         if (this.robot.posX + this.robot.robotWidth > this.area.width) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
+            this.direction = 'left';
         }
 
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
+            this.direction = 'right';
         }
 
         this.update();

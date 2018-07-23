@@ -1,31 +1,16 @@
-export function RobotAnimation({
-    robotBody,
-    openEyeEndpoint,
-    rightEyeOpenAnimation,
-    leftEyeOpenAnimation,
-    rightEyeCloseAnimation,
-    leftEyeCloseAnimation,
-    eyesGroup,
-    pupilsGroup,
-    leftEye,
-    rightEye,
-    leftWheel,
-    rightWheel
-} = config, isSleeping) {
-    this.robotBody = robotBody;
-    this.openEyeEndpoint = openEyeEndpoint;
-    this.rightEyeOpenAnimation = rightEyeOpenAnimation;
-    this.leftEyeOpenAnimation = leftEyeOpenAnimation;
-    this.rightEyeCloseAnimation = rightEyeCloseAnimation;
-    this.leftEyeCloseAnimation = leftEyeCloseAnimation;
-    this.eyesGroup = eyesGroup;
-    this.pupilsGroup = pupilsGroup;
-    this.leftEye = leftEye;
-    this.rightEye = rightEye;
-    this.leftWheel = leftWheel;
-    this.rightWheel = rightWheel;
-
-    this.isSleeping = isSleeping;
+export function Animation({ animatedElements } = config) {
+    this.robotBody = animatedElements.robotBody;
+    this.openEyeEndpoint = animatedElements.openEyeEndpoint;
+    this.rightEyeOpenAnimation = animatedElements.rightEyeOpenAnimation;
+    this.leftEyeOpenAnimation = animatedElements.leftEyeOpenAnimation;
+    this.rightEyeCloseAnimation = animatedElements.rightEyeCloseAnimation;
+    this.leftEyeCloseAnimation = animatedElements.leftEyeCloseAnimation;
+    this.eyesGroup = animatedElements.eyesGroup;
+    this.pupilsGroup = animatedElements.pupilsGroup;
+    this.leftEye = animatedElements.leftEye;
+    this.rightEye = animatedElements.rightEye;
+    this.leftWheel = animatedElements.leftWheel;
+    this.rightWheel = animatedElements.rightWheel;
 
     this.timers = {};
 
@@ -35,7 +20,7 @@ export function RobotAnimation({
     this.timers = {};
 }
 
-RobotAnimation.prototype = {
+Animation.prototype = {
     checkSleeping: function (isSleeping) {
         isSleeping ? this.robotBody.classList.add('sleeping') : this.robotBody.classList.remove('sleeping');
     },
@@ -47,8 +32,7 @@ RobotAnimation.prototype = {
 
     flinch: function () {
         var _this = this;
-        _this.isSleeping = false;
-        _this.checkSleeping();
+        _this.robotBody.classList.remove('sleeping');
 
         return new Promise(function (resolve, reject) {
             _this.robotBody.addEventListener('animationend', _this.handleAnimationEnd.bind(_this, resolve, _this.robotBody, _this.handleAnimationEnd));
@@ -58,8 +42,6 @@ RobotAnimation.prototype = {
 
     awakening: function () {
         var _this = this;
-        _this.isSleeping = false;
-        _this.checkSleeping();
 
         return new Promise(function (resolve, reject) {
             _this.rightEyeOpenAnimation.beginElement();

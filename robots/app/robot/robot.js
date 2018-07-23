@@ -1,4 +1,4 @@
-import { RobotAnimation } from '../animation/animation';
+import { Animation } from '../animation/Animation';
 
 export function HorizontalRobot({ robot, animatedElements } = config, area) {
     this.robot = robot;

@@ -86,44 +86,90 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/animation/animation.js":
-/*!************************************!*\
-  !*** ./app/animation/animation.js ***!
-  \************************************/
-/*! exports provided: RobotAnimation */
+/***/ "./app/animation/AnimatedRobot.js":
+/*!****************************************!*\
+  !*** ./app/animation/AnimatedRobot.js ***!
+  \****************************************/
+/*! exports provided: AnimatedRobot */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RobotAnimation", function() { return RobotAnimation; });
-function RobotAnimation({
-    robotBody,
-    openEyeEndpoint,
-    rightEyeOpenAnimation,
-    leftEyeOpenAnimation,
-    rightEyeCloseAnimation,
-    leftEyeCloseAnimation,
-    eyesGroup,
-    pupilsGroup,
-    leftEye,
-    rightEye,
-    leftWheel,
-    rightWheel
-} = config, isSleeping) {
-    this.robotBody = robotBody;
-    this.openEyeEndpoint = openEyeEndpoint;
-    this.rightEyeOpenAnimation = rightEyeOpenAnimation;
-    this.leftEyeOpenAnimation = leftEyeOpenAnimation;
-    this.rightEyeCloseAnimation = rightEyeCloseAnimation;
-    this.leftEyeCloseAnimation = leftEyeCloseAnimation;
-    this.eyesGroup = eyesGroup;
-    this.pupilsGroup = pupilsGroup;
-    this.leftEye = leftEye;
-    this.rightEye = rightEye;
-    this.leftWheel = leftWheel;
-    this.rightWheel = rightWheel;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AnimatedRobot", function() { return AnimatedRobot; });
+/* harmony import */ var _Animation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Animation */ "./app/animation/Animation.js");
 
-    this.isSleeping = isSleeping;
+
+function AnimatedRobot(Robot, config) {
+    this.robot = new Robot(config);
+    this.animation = new _Animation__WEBPACK_IMPORTED_MODULE_0__["Animation"](config);
+    this.animatedElements = config.animatedElements;
+    this.isSleeping = true;
+
+    this.animatedElements.robotBody.classList.add('sleeping');
+}
+
+AnimatedRobot.prototype = {
+    moveHorizontally: function () {
+        if (this.isSleeping) {
+            this.animation.flinch()
+                .then(() => {
+                    this.animation.awakening()
+                        .then(() => {
+                            this.isSleeping = false;
+                            this.robot.moveHorizontally();
+                        })
+                })
+        } else {
+            this.robot.moveHorizontally();
+        }
+    },
+
+    moveVertically: function () {
+        if (this.isSleeping) {
+            this.animation.flinch()
+                .then(() => {
+                    this.animation.awakening()
+                        .then(() => {
+                            this.isSleeping = false;
+                            this.robot.moveVertically();
+                        })
+                })
+        } else {
+            this.robot.moveVertically();
+        }
+    },
+
+    stop: function () {
+        this.robot.stop();
+    }
+}
+
+
+/***/ }),
+
+/***/ "./app/animation/Animation.js":
+/*!************************************!*\
+  !*** ./app/animation/Animation.js ***!
+  \************************************/
+/*! exports provided: Animation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return Animation; });
+function Animation({ animatedElements } = config) {
+    this.robotBody = animatedElements.robotBody;
+    this.openEyeEndpoint = animatedElements.openEyeEndpoint;
+    this.rightEyeOpenAnimation = animatedElements.rightEyeOpenAnimation;
+    this.leftEyeOpenAnimation = animatedElements.leftEyeOpenAnimation;
+    this.rightEyeCloseAnimation = animatedElements.rightEyeCloseAnimation;
+    this.leftEyeCloseAnimation = animatedElements.leftEyeCloseAnimation;
+    this.eyesGroup = animatedElements.eyesGroup;
+    this.pupilsGroup = animatedElements.pupilsGroup;
+    this.leftEye = animatedElements.leftEye;
+    this.rightEye = animatedElements.rightEye;
+    this.leftWheel = animatedElements.leftWheel;
+    this.rightWheel = animatedElements.rightWheel;
 
     this.timers = {};
 
@@ -133,7 +179,7 @@ function RobotAnimation({
     this.timers = {};
 }
 
-RobotAnimation.prototype = {
+Animation.prototype = {
     checkSleeping: function (isSleeping) {
         isSleeping ? this.robotBody.classList.add('sleeping') : this.robotBody.classList.remove('sleeping');
     },
@@ -145,8 +191,7 @@ RobotAnimation.prototype = {
 
     flinch: function () {
         var _this = this;
-        _this.isSleeping = false;
-        _this.checkSleeping();
+        _this.robotBody.classList.remove('sleeping');
 
         return new Promise(function (resolve, reject) {
             _this.robotBody.addEventListener('animationend', _this.handleAnimationEnd.bind(_this, resolve, _this.robotBody, _this.handleAnimationEnd));
@@ -156,8 +201,6 @@ RobotAnimation.prototype = {
 
     awakening: function () {
         var _this = this;
-        _this.isSleeping = false;
-        _this.checkSleeping();
 
         return new Promise(function (resolve, reject) {
             _this.rightEyeOpenAnimation.beginElement();
@@ -295,7 +338,8 @@ function getRobotAConfig() {
             rightEye,
             leftWheel,
             rightWheel
-        }
+        },
+        area: getRobotAAreaConfig()
     }
 };
 
@@ -342,8 +386,8 @@ function getRobotBConfig() {
     var robotBHeight = robotBModel.getBoundingClientRect().height;
     var robotBWidth = robotBModel.getBoundingClientRect().width;
 
-    var posX = 0/* robotBModel.getBoundingClientRect().x */;
-    var posY = 0/* robotBModel.getBoundingClientRect().y */;
+    var posX = 0;
+    var posY = 0;
 
     return {
         robot: {
@@ -370,7 +414,8 @@ function getRobotBConfig() {
             rightEye,
             leftWheel,
             rightWheel
-        }
+        },
+        area: getRobotBAreaConfig()
     }
 };
 
@@ -406,9 +451,10 @@ function getRobotBAreaConfig() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _robot_HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./robot/HorizontalRobot */ "./app/robot/HorizontalRobot.js");
 /* harmony import */ var _robot_MultiDirectRobot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./robot/MultiDirectRobot */ "./app/robot/MultiDirectRobot.js");
-/* harmony import */ var _config_robotA__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config/robotA */ "./app/config/robotA.js");
-/* harmony import */ var _config_robotB__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/robotB */ "./app/config/robotB.js");
-//import { HorizontalRobot } from './robot/robot';
+/* harmony import */ var _animation_AnimatedRobot__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./animation/AnimatedRobot */ "./app/animation/AnimatedRobot.js");
+/* harmony import */ var _config_robotA__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/robotA */ "./app/config/robotA.js");
+/* harmony import */ var _config_robotB__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./config/robotB */ "./app/config/robotB.js");
+
 
 
 
@@ -422,16 +468,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var verticalMove = document.querySelector('#robotB-go-button--v');
     var stopBButton = document.querySelector('#robotB-stop-button');
 
-    var robotAConfig = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_2__["getRobotAConfig"])();
-    var robotAArea = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_2__["getRobotAAreaConfig"])();
-    var robotA = new _robot_HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"](robotAConfig, robotAArea);
+    var robotAConfig = Object(_config_robotA__WEBPACK_IMPORTED_MODULE_3__["getRobotAConfig"])();
+    //var robotAArea = getRobotAAreaConfig();
+    var robotA = new _animation_AnimatedRobot__WEBPACK_IMPORTED_MODULE_2__["AnimatedRobot"](_robot_HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"], robotAConfig);
 
-    var robotBConfig = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_3__["getRobotBConfig"])();
-    var robotBArea = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_3__["getRobotBAreaConfig"])();
-    var robotB = new _robot_MultiDirectRobot__WEBPACK_IMPORTED_MODULE_1__["MultiDirectRobot"](robotBConfig, robotBArea);
+    var robotBConfig = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_4__["getRobotBConfig"])();
+    var robotBArea = Object(_config_robotB__WEBPACK_IMPORTED_MODULE_4__["getRobotBAreaConfig"])();
+    var robotB = new _animation_AnimatedRobot__WEBPACK_IMPORTED_MODULE_2__["AnimatedRobot"](_robot_MultiDirectRobot__WEBPACK_IMPORTED_MODULE_1__["MultiDirectRobot"], robotBConfig);
 
     startAButton.addEventListener('click', function (event) {
-        robotA.go();
+        robotA.moveHorizontally();
     });
 
     stopAButton.addEventListener('click', function (event) {
@@ -439,15 +485,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     startBButton.addEventListener('click', function (event) {
-        robotB.go();
+        robotB.moveHorizontally();
     });
 
     stopBButton.addEventListener('click', function (event) {
         robotB.stop();
     });
 
-    verticalMove.addEventListener('click', function() {
-        robotB.vertical();
+    verticalMove.addEventListener('click', function () {
+        robotB.moveVertically();
     })
 });
 
@@ -508,20 +554,19 @@ BallH.Update();
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HorizontalRobot", function() { return HorizontalRobot; });
-/* harmony import */ var _animation_animation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../animation/animation */ "./app/animation/animation.js");
-
-
-function HorizontalRobot({ robot, animatedElements } = config, area) {
+function HorizontalRobot({ robot, area } = config) {
     this.robot = robot;
     this.area = area;
+
     this.step = this.step.bind(this);
     this.update = this.update.bind(this);
 
+    this.direction = 'right';
     this.frames = {};
 }
 
 HorizontalRobot.prototype = {
-    go: function () {
+    moveHorizontally: function () {
         for (var frame in this.frames) {
             if (this.frames.hasOwnProperty(frame)) {
                 window.cancelAnimationFrame(this.frames[frame]);
@@ -540,11 +585,13 @@ HorizontalRobot.prototype = {
         if (this.robot.posX + this.robot.robotWidth > this.area.width) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
+            this.direction = 'left';
         }
 
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
+            this.direction = 'right';
         }
 
         this.update();
@@ -570,17 +617,15 @@ HorizontalRobot.prototype = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiDirectRobot", function() { return MultiDirectRobot; });
-/* harmony import */ var _animation_animation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../animation/animation */ "./app/animation/animation.js");
-/* harmony import */ var _HorizontalRobot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HorizontalRobot */ "./app/robot/HorizontalRobot.js");
-
+/* harmony import */ var _HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HorizontalRobot */ "./app/robot/HorizontalRobot.js");
 
 
 function MultiDirectRobot(config, area) {
-    _HorizontalRobot__WEBPACK_IMPORTED_MODULE_1__["HorizontalRobot"].call(this, config, area);
+    _HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"].call(this, config, area);
     this.stepVertical = this.stepVertical.bind(this);
 }
 
-MultiDirectRobot.prototype = Object.create(_HorizontalRobot__WEBPACK_IMPORTED_MODULE_1__["HorizontalRobot"].prototype);
+MultiDirectRobot.prototype = Object.create(_HorizontalRobot__WEBPACK_IMPORTED_MODULE_0__["HorizontalRobot"].prototype);
 MultiDirectRobot.prototype.constructor = MultiDirectRobot;
 
 MultiDirectRobot.prototype.stepVertical = function () {
@@ -605,7 +650,7 @@ MultiDirectRobot.prototype.stepVertical = function () {
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }
 
-MultiDirectRobot.prototype.vertical = function () {
+MultiDirectRobot.prototype.moveVertically = function () {
     window.cancelAnimationFrame(this.frames[this.robot.id]);
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }

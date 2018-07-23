@@ -43,7 +43,8 @@ export function getRobotAConfig() {
             rightEye,
             leftWheel,
             rightWheel
-        }
+        },
+        area: getRobotAAreaConfig()
     }
 };
 
