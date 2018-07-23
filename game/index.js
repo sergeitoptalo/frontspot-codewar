@@ -89,14 +89,10 @@ class Game {
                     if (cell === 0) {
                         ctx.fillStyle = 'rgba(227, 235, 239, 1)';
                         ctx.fillRect(x, y, this.cellWidth, this.cellHeight);
-                        // ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
-                        //ctx.strokeStyle = 'white';
                         x = x + this.cellWidth + 1;
                     } else {
                         ctx.fillStyle = 'rgba(63, 121, 150, 1)';
                         ctx.fillRect(x, y, this.cellWidth, this.cellHeight);
-                        // ctx.strokeRect(x, y, this.cellWidth, this.cellHeight);
-                        //ctx.strokeStyle = '#4d6819';
                         x = x + this.cellWidth + 1;
                     }
                 })
