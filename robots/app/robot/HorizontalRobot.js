@@ -6,11 +6,17 @@ export function HorizontalRobot({ robot, area } = config) {
     this.update = this.update.bind(this);
 
     this.direction = 'right';
+    this.handleDirectionChange = null;
     this.frames = {};
 }
 
 HorizontalRobot.prototype = {
-    moveHorizontally: function () {
+    moveHorizontally: function (handleDirectionChange) {
+        if (handleDirectionChange) {
+            this.handleDirectionChange = handleDirectionChange;
+            this.handleDirectionChange(this.direction);
+        }
+
         for (var frame in this.frames) {
             if (this.frames.hasOwnProperty(frame)) {
                 window.cancelAnimationFrame(this.frames[frame]);
@@ -30,12 +36,14 @@ HorizontalRobot.prototype = {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
             this.direction = 'left';
+            this.handleDirectionChange(this.direction);
         }
 
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
             this.direction = 'right';
+            this.handleDirectionChange(this.direction);
         }
 
         this.update();

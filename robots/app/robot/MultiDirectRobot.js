@@ -30,7 +30,11 @@ MultiDirectRobot.prototype.stepVertical = function () {
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }
 
-MultiDirectRobot.prototype.moveVertically = function () {
+MultiDirectRobot.prototype.moveVertically = function (handleDirectionChange) {
+    if (handleDirectionChange) {
+        this.handleDirectionChange = handleDirectionChange;
+    }
+
     window.cancelAnimationFrame(this.frames[this.robot.id]);
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }

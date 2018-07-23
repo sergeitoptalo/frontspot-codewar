@@ -106,9 +106,15 @@ function AnimatedRobot(Robot, config) {
     this.isSleeping = true;
 
     this.animatedElements.robotBody.classList.add('sleeping');
+
+    this.handleDirectionChange = this.handleDirectionChange.bind(this);
 }
 
 AnimatedRobot.prototype = {
+    handleDirectionChange: function(direction) {
+        this.animation.changeWheelDirection()[direction]();
+    },
+
     moveHorizontally: function () {
         if (this.isSleeping) {
             this.animation.flinch()
@@ -116,11 +122,11 @@ AnimatedRobot.prototype = {
                     this.animation.awakening()
                         .then(() => {
                             this.isSleeping = false;
-                            this.robot.moveHorizontally();
+                            this.robot.moveHorizontally(this.handleDirectionChange);
                         })
                 })
         } else {
-            this.robot.moveHorizontally();
+            this.robot.moveHorizontally(this.handleDirectionChange);
         }
     },
 
@@ -131,16 +137,17 @@ AnimatedRobot.prototype = {
                     this.animation.awakening()
                         .then(() => {
                             this.isSleeping = false;
-                            this.robot.moveVertically();
+                            this.robot.moveVertically(this.handleDirectionChange);
                         })
                 })
         } else {
-            this.robot.moveVertically();
+            this.robot.moveVertically(this.handleDirectionChange);
         }
     },
 
     stop: function () {
         this.robot.stop();
+        this.animation.stopMoving();
     }
 }
 
@@ -251,24 +258,29 @@ Animation.prototype = {
         this.pupilsGroup.removeEventListener('animationend', this.eyeBlinking);
     },
 
-    moving: function () {
+    changeWheelDirection() {
         var _this = this;
 
         return {
-            forward: function () {
+            'right': function() {
                 _this.leftWheel.classList.remove('left-wheel-rotate-back');
                 _this.rightWheel.classList.remove('right-wheel-rotate-back');
                 _this.leftWheel.classList.add('left-wheel-rotate-forward');
                 _this.rightWheel.classList.add('right-wheel-rotate-forward');
             },
-            back: function () {
+            'left': function() {
                 _this.leftWheel.classList.remove('left-wheel-rotate-forward');
                 _this.rightWheel.classList.remove('right-wheel-rotate-forward');
                 _this.leftWheel.classList.add('left-wheel-rotate-back');
                 _this.rightWheel.classList.add('right-wheel-rotate-back');
+            },
+            'up': function() {
+
+            },
+            'down': function() {
+                
             }
         }
-        // this.robotBody.classList.add('moving');
     },
 
     stopMoving: function () {
@@ -562,11 +574,17 @@ function HorizontalRobot({ robot, area } = config) {
     this.update = this.update.bind(this);
 
     this.direction = 'right';
+    this.handleDirectionChange = null;
     this.frames = {};
 }
 
 HorizontalRobot.prototype = {
-    moveHorizontally: function () {
+    moveHorizontally: function (handleDirectionChange) {
+        if (handleDirectionChange) {
+            this.handleDirectionChange = handleDirectionChange;
+            this.handleDirectionChange(this.direction);
+        }
+
         for (var frame in this.frames) {
             if (this.frames.hasOwnProperty(frame)) {
                 window.cancelAnimationFrame(this.frames[frame]);
@@ -586,12 +604,14 @@ HorizontalRobot.prototype = {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = this.area.width - this.robot.robotWidth;
             this.direction = 'left';
+            this.handleDirectionChange(this.direction);
         }
 
         if (this.robot.posX < 0) {
             this.robot.speedX = -this.robot.speedX;
             this.robot.posX = 0;
             this.direction = 'right';
+            this.handleDirectionChange(this.direction);
         }
 
         this.update();
@@ -650,7 +670,11 @@ MultiDirectRobot.prototype.stepVertical = function () {
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }
 
-MultiDirectRobot.prototype.moveVertically = function () {
+MultiDirectRobot.prototype.moveVertically = function (handleDirectionChange) {
+    if (handleDirectionChange) {
+        this.handleDirectionChange = handleDirectionChange;
+    }
+
     window.cancelAnimationFrame(this.frames[this.robot.id]);
     this.frames[this.robot.id] = window.requestAnimationFrame(this.stepVertical);
 }

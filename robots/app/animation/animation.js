@@ -92,24 +92,29 @@ Animation.prototype = {
         this.pupilsGroup.removeEventListener('animationend', this.eyeBlinking);
     },
 
-    moving: function () {
+    changeWheelDirection() {
         var _this = this;
 
         return {
-            forward: function () {
+            'right': function() {
                 _this.leftWheel.classList.remove('left-wheel-rotate-back');
                 _this.rightWheel.classList.remove('right-wheel-rotate-back');
                 _this.leftWheel.classList.add('left-wheel-rotate-forward');
                 _this.rightWheel.classList.add('right-wheel-rotate-forward');
             },
-            back: function () {
+            'left': function() {
                 _this.leftWheel.classList.remove('left-wheel-rotate-forward');
                 _this.rightWheel.classList.remove('right-wheel-rotate-forward');
                 _this.leftWheel.classList.add('left-wheel-rotate-back');
                 _this.rightWheel.classList.add('right-wheel-rotate-back');
+            },
+            'up': function() {
+
+            },
+            'down': function() {
+                
             }
         }
-        // this.robotBody.classList.add('moving');
     },
 
     stopMoving: function () {
